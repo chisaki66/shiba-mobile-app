@@ -3,36 +3,30 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } 
 import { Icon } from 'react-native-elements';
 
 const Lists = () => {
-  const [task, setTask] = useState({ name: '' });
-  const [tasks, setTasks] = useState([]);
+  const [list, setList] = useState({ title: '' });
+  const [lists, setLists] = useState([]);
 
-  const handleAddTask = () => {
-    if (task.name.trim() !== '') {
-      setTasks([...tasks, task]);
-      setTask({ name: '' });
+  const handleAddList = () => {
+    if (list.title.trim() !== '') {
+      setLists([...lists, list]);
+      setList({ title: '' });
     }
-  };
-
-  const handleEditTask = (index, newName) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].name = newName;
-    setTasks(updatedTasks);
   };
 
   const onPressActionOptions = (index) => {
     const update = () => {
-      if (tasks[index].isCompleted) {
-        return '未完了に元に戻す';
+      if (lists[index].isCompleted) {
+        return '未完了に戻す';
       } else {
         return '完了しました';
       }
     };
 
-    Alert.alert(`${tasks[index].name}`, '', [
+    Alert.alert(`${lists[index].title}`, '', [
       {
         text: update(),
         style: 'cancel',
-        onPress: () => handleUpdateTask(index),
+        onPress: () => handleUpdateList(index),
       },
       {
         text: '削除します',
@@ -46,9 +40,9 @@ const Lists = () => {
     ]);
   };
 
-  const handleUpdateTask = (index) => {
-    setTasks((prevTasks) => {
-      return prevTasks.map((item, i) => {
+  const handleUpdateList = (index) => {
+    setLists((prevLists) => {
+      return prevLists.map((item, i) => {
         if (i === index) {
           return { ...item, isCompleted: !item.isCompleted };
         } else {
@@ -58,35 +52,31 @@ const Lists = () => {
     });
   };
 
-  const handleRemoveTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
+  const handleRemoveList = (index) => {
+    const newLists = [...lists];
+    newLists.splice(index, 1);
+    setLists(newLists);
   };
 
   const onPressRemoveAlert = (index) => {
-    Alert.alert(`${tasks[index].name}`, `を本当に削除しますか？`, [
+    Alert.alert(`${lists[index].title}`, `を本当に削除しますか？`, [
       {
         text: 'いいえ',
         style: 'cancel',
       },
-      { text: 'はい', onPress: () => handleRemoveTask(index) },
+      { text: 'はい', onPress: () => handleRemoveList(index) },
     ]);
   };
 
   const renderItem = ({ item, index }) => {
     return (
-      <View key={index} style={styles.taskItem}>
-        <View style={styles.taskItemList}>
-          {tasks[index].isCompleted ? (
-            <Text style={styles.doneTaskItem}>{item.name}</Text>
-          ) : (
-            <TextInput
-              style={styles.inputTaskItem}
-              value={item.name}
-              onChangeText={(newName) => handleEditTask(index, newName)}
-            />
-          )}
+      <View key={index} style={styles.listItem}>
+        <View style={styles.listItemList}>
+          <TouchableOpacity>
+            <Text style={lists[index].isCompleted ? styles.doneListItem : styles.inputListItem}>
+              {item.title}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => onPressActionOptions(index)}>
@@ -99,23 +89,19 @@ const Lists = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Text style={styles.editText}>並べ替え</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.header}></View>
       <View style={styles.main}>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="タスクの追加"
-            value={task.name}
+            value={list.title}
             returnKeyType="done"
-            onSubmitEditing={handleAddTask}
-            onChangeText={(text) => setTask({ name: text, isCompleted: false })}
+            onSubmitEditing={handleAddList}
+            onChangeText={(text) => setList({ title: text, isCompleted: false })}
           />
         </View>
-        <FlatList data={tasks} renderItem={renderItem} />
+        <FlatList data={lists} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -156,18 +142,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingHorizontal: 10,
   },
-  taskItem: {
+  listItem: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  taskItemList: {
+  listItemList: {
     flex: 1,
   },
-  doneTaskItem: {
+  doneListItem: {
     color: 'gray',
     textDecorationLine: 'line-through',
   },
-  inputTaskItem: {
+  inputListItem: {
     flexGrow: 1,
     width: '100%',
   },
