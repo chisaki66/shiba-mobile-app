@@ -3,13 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } 
 import { Icon } from 'react-native-elements';
 
 const Lists = () => {
-  const [list, setList] = useState({ title: '' });
+  const [title, setTitle] = useState('');
   const [lists, setLists] = useState([]);
 
-  const handleAddList = () => {
-    if (list.title.trim() !== '') {
-      setLists([...lists, list]);
-      setList({ title: '' });
+  const handleListSubmit = () => {
+    if (title.trim() !== '') {
+      setLists([...lists, { title, isCompleted: false, subLists: [] }]);
+      setTitle('');
     }
   };
 
@@ -94,11 +94,11 @@ const Lists = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="タスクの追加"
-            value={list.title}
+            placeholder="新しいリストを入力.."
+            value={title}
             returnKeyType="done"
-            onSubmitEditing={handleAddList}
-            onChangeText={(text) => setList({ title: text, isCompleted: false })}
+            onSubmitEditing={handleListSubmit}
+            onChangeText={(text) => setTitle(text)}
           />
         </View>
         <FlatList data={lists} renderItem={renderItem} />
