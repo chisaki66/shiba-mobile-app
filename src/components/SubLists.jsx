@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 const SubLists = ({ lists, list, listNum, title, setLists }) => {
   const [item, setItem] = useState('');
+
+  const navigation = useNavigation();
 
   const handleSubListSubmit = () => {
     if (item.trim() !== '') {
@@ -27,7 +31,12 @@ const SubLists = ({ lists, list, listNum, title, setLists }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header} />
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.return} onPress={() => navigation.navigate('Lists')}>
+          <Icon name="chevron-left" size={30} color="white" />
+          <Text style={styles.returnText}>戻る</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.main}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -51,12 +60,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    float: 'left',
     backgroundColor: 'skyblue',
     height: 100,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     paddingRight: 20,
     paddingBottom: 10,
+  },
+  return: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: 4,
+  },
+  returnText: {
+    color: 'white',
+    fontSize: 16,
+    marginLeft: -4,
   },
   main: {
     flex: 1,
