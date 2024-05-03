@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const Lists = () => {
-  const [title, setTitle] = useState('');
-  const [lists, setLists] = useState([]);
-
+const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
   const navigation = useNavigation();
 
   const handleListSubmit = () => {
@@ -71,11 +68,16 @@ const Lists = () => {
     ]);
   };
 
+  const handleSelectList = (index) => {
+    setListNum(index);
+    navigation.navigate('SubLists');
+  };
+
   const renderItem = ({ item, index }) => {
     return (
       <View key={index} style={styles.listItem}>
         <View style={styles.listItemList}>
-          <TouchableOpacity onPress={() => navigation.navigate('SubLists')}>
+          <TouchableOpacity onPress={() => handleSelectList(index)}>
             <Text style={lists[index].isCompleted ? styles.doneListItem : styles.inputListItem}>
               {item.title}
             </Text>

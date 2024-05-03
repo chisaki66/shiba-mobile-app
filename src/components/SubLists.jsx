@@ -1,7 +1,30 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, FlatList } from 'react-native';
 
-const SubLists = () => {
+const SubLists = ({ lists, list, listNum, title, setLists }) => {
+  const [item, setItem] = useState('');
+
+  const handleSubListSubmit = () => {
+    if (item.trim() !== '') {
+      const newSubLists = [...lists[listNum].subLists, { item, isCompleted: false }];
+      setLists((lists) => {
+        lists[listNum].subLists = newSubLists;
+        return lists;
+      });
+      setItem('');
+    }
+  };
+
+  const renderItem = ({ item, index }) => {
+    return (
+      <View key={index} style={styles.listItem}>
+        <View style={styles.listItemList}>
+          <Text>{item?.item}</Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header} />
@@ -10,10 +33,14 @@ const SubLists = () => {
           <TextInput
             style={styles.input}
             placeholder="リストを入力..."
+            value={item}
             returnKeyType="done"
-            onPress={() => foo()}
+            onSubmitEditing={handleSubListSubmit}
+            onChangeText={(text) => setItem(text)}
           />
         </View>
+        <Text>{title}</Text>
+        <FlatList data={list.subLists} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -48,6 +75,17 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginRight: 10,
     paddingHorizontal: 10,
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listItemList: {
+    flex: 1,
+  },
+  inputListItem: {
+    flexGrow: 1,
+    width: '100%',
   },
 });
 
