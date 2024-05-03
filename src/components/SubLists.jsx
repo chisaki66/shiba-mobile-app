@@ -25,6 +25,11 @@ const SubLists = ({ lists, list, listNum, title, setLists }) => {
         <View style={styles.listItemList}>
           <Text>{item?.item}</Text>
         </View>
+        <View>
+          <TouchableOpacity>
+            <Icon style={styles.actionButton} name="more-horiz" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -107,6 +112,9 @@ const styles = StyleSheet.create({
   inputListItem: {
     flexGrow: 1,
     width: '100%',
+  },
+  actionButton: {
+    padding: 10,
   },
 });
 
