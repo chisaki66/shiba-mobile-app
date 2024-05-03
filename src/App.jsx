@@ -16,8 +16,9 @@ const App = () => {
         }}
         initialRouteName="Lists"
       >
-        <Stack.Screen name="Lists" component={Lists} />
-        <Stack.Screen name="SubLists" component={SubLists} />
+        <Stack.Screen name="Lists">{() => <Lists />}</Stack.Screen>
+
+        <Stack.Screen name="SubLists">{() => <SubLists />}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

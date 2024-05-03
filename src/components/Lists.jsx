@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const Lists = () => {
   const [title, setTitle] = useState('');
   const [lists, setLists] = useState([]);
+
+  const navigation = useNavigation();
 
   const handleListSubmit = () => {
     if (title.trim() !== '') {
@@ -72,7 +75,7 @@ const Lists = () => {
     return (
       <View key={index} style={styles.listItem}>
         <View style={styles.listItemList}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SubLists')}>
             <Text style={lists[index].isCompleted ? styles.doneListItem : styles.inputListItem}>
               {item.title}
             </Text>
@@ -89,7 +92,7 @@ const Lists = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header} />
       <View style={styles.main}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -118,11 +121,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingRight: 20,
     paddingBottom: 10,
-  },
-  editText: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'right',
   },
   main: {
     flex: 1,
