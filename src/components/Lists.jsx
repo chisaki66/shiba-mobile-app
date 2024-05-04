@@ -1,6 +1,15 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  FlatList,
+  Image,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
@@ -78,14 +87,19 @@ const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
       <View key={index} style={styles.listItem}>
         <View style={styles.listItemList}>
           <TouchableOpacity onPress={() => handleSelectList(index)}>
-            <Text style={lists[index].isCompleted ? styles.doneListItem : styles.inputListItem}>
+            <Text
+              style={[
+                styles.listItemText,
+                lists[index].isCompleted ? styles.doneListItem : styles.inputListItem,
+              ]}
+            >
               {item.title}
             </Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => onPressActionOptions(index)}>
-            <Icon style={styles.actionButton} name="more-horiz" size={20} color="black" />
+            <Icon style={styles.actionButton} name="more-horiz" size={20} color="#906460" />
           </TouchableOpacity>
         </View>
       </View>
@@ -97,16 +111,22 @@ const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
       <View style={styles.header} />
       <View style={styles.main}>
         <View style={styles.inputContainer}>
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={require('../images/shiba.png')}
+          />
           <TextInput
             style={styles.input}
             placeholder="新しいリストを入力.."
             value={title}
             returnKeyType="done"
+            placeholderTextColor="#cfb7b5"
             onSubmitEditing={handleListSubmit}
             onChangeText={(text) => setTitle(text)}
           />
         </View>
-        <FlatList data={lists} renderItem={renderItem} />
+        <FlatList style={styles.lists} data={lists} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -117,7 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#bb6464',
     height: 100,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -126,31 +146,49 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#faf1f1',
   },
   inputContainer: {
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 10,
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingBottom: 10,
+    paddingRight: 20,
+  },
+  image: {
+    width: 120,
+    height: 100,
   },
   input: {
     flex: 1,
     height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
-    marginRight: 10,
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderStyle: 'dotted',
+    borderColor: '#d4aca8',
+    borderRadius: 24,
+  },
+  lists: {
+    marginTop: 10,
   },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 4,
+    paddingLeft: 20,
+    paddingRight: 10,
+    paddingBottom: 4,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#d4aca8',
   },
   listItemList: {
     flex: 1,
   },
+  listItemText: {
+    color: '#906460',
+  },
   doneListItem: {
-    color: 'gray',
     textDecorationLine: 'line-through',
   },
   inputListItem: {
