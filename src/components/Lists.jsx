@@ -179,13 +179,14 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 10,
     paddingBottom: 4,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
     borderBottomColor: '#d4aca8',
   },
   listItemList: {
     flex: 1,
   },
   listItemText: {
+    fontWeight: 'bold',
     color: '#906460',
   },
   doneListItem: {

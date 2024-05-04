@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const SubLists = ({ lists, list, listNum, title, setLists }) => {
@@ -23,11 +23,11 @@ const SubLists = ({ lists, list, listNum, title, setLists }) => {
     return (
       <View key={index} style={styles.listItem}>
         <View style={styles.listItemList}>
-          <Text>{item?.item}</Text>
+          <Text style={styles.listItemText}>{item?.item}</Text>
         </View>
         <View>
           <TouchableOpacity>
-            <Icon style={styles.actionButton} name="more-horiz" size={20} color="black" />
+            <Icon style={styles.actionButton} name="more-horiz" size={20} color="#906460" />
           </TouchableOpacity>
         </View>
       </View>
@@ -44,17 +44,26 @@ const SubLists = ({ lists, list, listNum, title, setLists }) => {
       </View>
       <View style={styles.main}>
         <View style={styles.inputContainer}>
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={require('../images/shiba_1.png')}
+          />
           <TextInput
             style={styles.input}
             placeholder="リストを入力..."
             value={item}
             returnKeyType="done"
+            placeholderTextColor="#cfb7b5"
             onSubmitEditing={handleSubListSubmit}
             onChangeText={(text) => setItem(text)}
           />
         </View>
-        <Text>{title}</Text>
-        <FlatList data={list.subLists} renderItem={renderItem} />
+        <View style={styles.title}>
+          <Image style={styles.pawsIcon} source={require('../images/paws_icon.png')} />
+          <Text style={styles.titleText}>{title}</Text>
+        </View>
+        <FlatList style={styles.lists} data={list.subLists} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
   },
   header: {
     float: 'left',
-    backgroundColor: 'skyblue',
+    backgroundColor: '#bb6464',
     height: 100,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -86,32 +95,63 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#faf1f1',
   },
   inputContainer: {
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 10,
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingBottom: 10,
+    paddingRight: 20,
+  },
+  image: {
+    width: 120,
+    height: 100,
   },
   input: {
     flex: 1,
     height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
-    marginRight: 10,
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderStyle: 'dotted',
+    borderColor: '#d4aca8',
+    borderRadius: 24,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 12,
+    marginTop: 16,
+  },
+  pawsIcon: {
+    width: 20,
+    height: 14,
+  },
+  titleText: {
+    fontSize: 16,
+    color: '#906460',
+    fontWeight: 'bold',
+  },
+  lists: {
+    marginTop: 10,
   },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 4,
+    paddingLeft: 20,
+    paddingRight: 10,
+    paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#d4aca8',
   },
   listItemList: {
     flex: 1,
   },
-  inputListItem: {
-    flexGrow: 1,
-    width: '100%',
+  listItemText: {
+    fontWeight: 'bold',
+    color: '#906460',
   },
   actionButton: {
     padding: 10,
