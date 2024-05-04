@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
+import ListsNone from './ListsNone';
 
 const SubLists = ({ lists, list, listNum, title, setLists }) => {
   const [item, setItem] = useState('');
@@ -63,7 +64,11 @@ const SubLists = ({ lists, list, listNum, title, setLists }) => {
           <Image style={styles.pawsIcon} source={require('../images/paws_icon.png')} />
           <Text style={styles.titleText}>{title}</Text>
         </View>
-        <FlatList style={styles.lists} data={list.subLists} renderItem={renderItem} />
+        {list.subLists.length !== 0 ? (
+          <FlatList style={styles.lists} data={list.subLists} renderItem={renderItem} />
+        ) : (
+          <ListsNone />
+        )}
       </View>
     </View>
   );
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   returnText: {
-    color: 'white',
+    color: '#ffffff',
     fontSize: 16,
     marginLeft: -4,
   },

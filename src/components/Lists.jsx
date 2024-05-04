@@ -11,6 +11,7 @@ import {
   Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import ListsNone from './ListsNone';
 
 const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
   const navigation = useNavigation();
@@ -126,7 +127,11 @@ const Lists = ({ lists, title, setLists, setTitle, setListNum }) => {
             onChangeText={(text) => setTitle(text)}
           />
         </View>
-        <FlatList style={styles.lists} data={lists} renderItem={renderItem} />
+        {lists.length !== 0 ? (
+          <FlatList style={styles.lists} data={lists} renderItem={renderItem} />
+        ) : (
+          <ListsNone />
+        )}
       </View>
     </View>
   );
